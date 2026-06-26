@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 
 export default defineConfig({
-  base: "./", // 👈 ¡AGREGÁ ESTA LÍNEA! Con el punto adelante obligamos a que todas las rutas sean relativas.
+  base: "/Hogwarts-Explorer/", // 👈 REEMPLAZÁ esto por el nombre de tu repo en GitHub
   build: {
     rollupOptions: {
       input: {
