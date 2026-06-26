@@ -1,12 +1,13 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/Hogwarts-Explorer/", // 👈 Asegurate de que respete las mayúsculas de tu repo
+  // En Vercel la base SIEMPRE debe ser '/' porque el proyecto corre en la raíz de tu dominio
+  base: "/",
   build: {
     rollupOptions: {
       input: {
-        main: "index.html", // 👈 Simplificado sin __dirname
-        detalle: "detalle.html", // 👈 Simplificado sin __dirname
+        main: "index.html", // Tu página principal
+        detalle: "detalle.html", // Tu página de detalles
       },
     },
   },
