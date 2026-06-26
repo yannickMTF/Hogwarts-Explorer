@@ -1,13 +1,12 @@
 import { defineConfig } from "vite";
-import { resolve } from "path";
 
 export default defineConfig({
-  base: "/Hogwarts-Explorer/", // 👈 REEMPLAZÁ esto por el nombre de tu repo en GitHub
+  base: "/Hogwarts-Explorer/", // 👈 Asegurate de que respete las mayúsculas de tu repo
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
-        detalle: resolve(__dirname, "detalle.html"),
+        main: "index.html", // 👈 Simplificado sin __dirname
+        detalle: "detalle.html", // 👈 Simplificado sin __dirname
       },
     },
   },
