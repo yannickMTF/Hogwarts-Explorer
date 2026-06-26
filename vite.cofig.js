@@ -8,11 +8,10 @@ export default defineConfig({
     },
   },
   build: {
-    // Corregido: 'rollupOptions' para que Vite procese las dos páginas
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        detalle: resolve(__dirname, "detalle.html"), // Apunta a tu archivo de detalles en la raíz
+        detalle: resolve(__dirname, "detalle.html"),
       },
     },
   },
