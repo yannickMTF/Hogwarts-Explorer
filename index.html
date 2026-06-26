@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="src/assets/favicon.png" />
+    <title>HP-API — Hogwarts Explorer</title>
+    <link rel="stylesheet" href="/src/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <img src="/src/assets/logo.png" alt="HP-API" class="hp-logo-img" />
+
+        <div class="house-buttons">
+          <button class="btn-house Btn all active" data-house="all">
+            <div class="layer-mix-horizontal">
+              <img src="/src/assets/gryffindor.png" alt="Gryffindor" />
+              <img src="/src/assets/slytherin.png" alt="Slytherin" />
+              <img src="/src/assets/ravenclaw.png" alt="Ravenclaw" />
+              <img src="/src/assets/hufflepuff.png" alt="Hufflepuff" />
+            </div>
+            <p class="text text-all">Todos</p>
+          </button>
+
+          <button class="btn-house Btn gryffindor" data-house="Gryffindor">
+            <img
+              class="Layer"
+              src="/src/assets/gryffindor.png"
+              alt="Gryffindor"
+            />
+            <p class="text">Gryffindor</p>
+          </button>
+
+          <button class="btn-house Btn hufflepuff" data-house="Hufflepuff">
+            <img
+              class="Layer"
+              src="/src/assets/hufflepuff.png"
+              alt="Hufflepuff"
+            />
+            <p class="text">Hufflepuff</p>
+          </button>
+
+          <button class="btn-house Btn ravenclaw" data-house="Ravenclaw">
+            <img
+              class="Layer"
+              src="/src/assets/ravenclaw.png"
+              alt="Ravenclaw"
+            />
+            <p class="text">Ravenclaw</p>
+          </button>
+
+          <button class="btn-house Btn slytherin" data-house="Slytherin">
+            <img
+              class="Layer"
+              src="/src/assets/slytherin.png"
+              alt="Slytherin"
+            />
+            <p class="text">Slytherin</p>
+          </button>
+        </div>
+
+        <div class="search-container">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar personaje por nombre..."
+          />
+          <select id="sort-select">
+            <option value="none">Por Defecto</option>
+            <option value="asc">Nombre (A-Z)</option>
+            <option value="desc">Nombre (Z-A)</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="message-container"></div>
+      <section id="characters-grid" class="grid"></section>
+    </main>
+
+    <footer>
+      <p>Hogwarts System © 2026 — Desarrollado con Vite</p>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>

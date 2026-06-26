@@ -1,0 +1,687 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap");
+
+:root {
+  --gold: #ffd700;
+  --gold-dim: #ecb939;
+  --white: #ffffff;
+  --bg-dark: #0f0f1a;
+
+  /* Colores exactos de las Casas de la imagen */
+  --gryffindor: #740001;
+  --hufflepuff: #eee117;
+  --ravenclaw: #0e1a40;
+  --slytherin: #1a472a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+
+  /* 🏰 Imagen de Hogwarts de fondo cubriendo toda la pantalla principal */
+  background:
+    linear-gradient(rgba(15, 15, 26, 0.85), rgba(15, 15, 26, 0.9)),
+    url("/src/assets/escuela.jpg") no-repeat center center fixed;
+  background-size: cover;
+
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Estilo Navbar Cinematográfica */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* 1. Mantené acá el fondo sólido que más te haya gustado */
+  background: #0a0a0f;
+  padding: 1.1rem 2rem;
+
+  /* 2. Quitamos el border-bottom tradicional para usar la línea mágica */
+  border-bottom: none;
+
+  /* 3. ¡REQUISITO CLAVE! Permite posicionar la línea justo en la base */
+  position: relative;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* 🪄 La línea dorada con extremos difuminados */
+header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    rgba(236, 185, 57, 0) 0%,
+    rgba(236, 185, 57, 1) 50%,
+    rgba(236, 185, 57, 0) 100%
+  );
+
+  /* Aplica un brillo dorado difuminado que acompaña el desvanecimiento de la línea */
+  filter: drop-shadow(0 0 4px rgba(236, 185, 57, 0.6));
+}
+
+/* ⚡ CONTENEDOR PRINCIPAL QUE DISTRIBUYE LOS 3 ELEMENTOS */
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* Izquierda, Centro y Derecha exactos */
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+/* 🪄 LOGO BIEN A LA IZQUIERDA (TAMAÑO OPTIMIZADO) */
+.hp-logo-img {
+  height: 65px; /* Altura perfecta y equilibrada para ir alineada con los botones */
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+
+  /* Sombra y destello mágico dorado */
+  filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.8))
+    drop-shadow(0px 0px 12px rgba(255, 215, 0, 0.3));
+
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
+}
+
+.hp-logo-img:hover {
+  filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.9))
+    drop-shadow(0px 0px 22px rgba(255, 215, 0, 0.65));
+  transform: scale(1.04);
+}
+
+/* 🔍 CONTENEDOR DE BÚSQUEDA BIEN A LA DERECHA */
+.search-container {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.search-container input,
+.search-container select {
+  padding: 0.6rem 0.4rem;
+  /* Sin bordes, solo la línea de base */
+  border: none;
+  border-bottom: 2px solid rgba(236, 185, 57, 0.3);
+  border-radius: 0; /* Resetea el radio */
+  background: transparent; /* Totalmente transparente */
+  color: #ffffff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.search-container input {
+  flex: 2;
+}
+
+.search-container select {
+  flex: 1;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ecb939' stroke-width='1.5'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 14px;
+  padding-right: 1.5rem;
+}
+
+/* Al enfocar, la línea inferior se vuelve oro brillante y se desplaza sutilmente */
+.search-container input:focus,
+.search-container select:focus {
+  border-bottom-color: var(--gold);
+  padding-left: 0.8rem; /* Pequeño efecto animado de desplazamiento */
+}
+
+/* 🪄 Solución al bug de invisibilidad de image_f4ed81.png */
+.search-container select option {
+  background-color: #0a0a0f; /* Cambia el fondo blanco por el fondo oscuro de tu header */
+  color: #ffffff; /* Fuerza a que las letras sean blancas sobre el fondo oscuro */
+  padding: 10px; /* Le da un poco de aire a cada opción (en navegadores que lo soportan) */
+}
+
+/* Opcional: Si querés que la opción que viene "Por Defecto" o deshabilitada tenga un tono grisáceo */
+.search-container select option:disabled {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   ⚡ BOTONES DE LAS CASAS JUSTO EN EL MEDIO
+   ========================================================================== */
+.house-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.Btn {
+  position: relative;
+  width: 140px;
+  height: 44px;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s,
+    background-color 0.3s;
+  background-color: #161624;
+  flex-shrink: 0;
+}
+
+/* Escudos para botones individuales */
+img.Layer {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  position: absolute;
+  left: 10px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  opacity: 0.9;
+}
+
+/* 🗺️ Contenedor de los 4 escudos HORIZONTALES dentro de "Todos" */
+.layer-mix-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  left: 8px;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 1;
+}
+
+.layer-mix-horizontal img {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  transition: all 0.4s;
+}
+
+/* Textos generales de los botones */
+.text {
+  color: #f0eeef;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02rem;
+  margin: 0;
+  padding-left: 28px;
+  position: absolute;
+  z-index: 2;
+  transition:
+    transform 0.3s,
+    opacity 0.3s,
+    padding 0.3s;
+  white-space: nowrap;
+}
+
+.text-all {
+  padding-left: 56px;
+}
+
+/* --- Efectos Hover y Active --- */
+.Btn:hover {
+  transform: translateY(-2px);
+}
+
+.Btn:hover img.Layer,
+.Btn.active img.Layer {
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+  transform: scale(1.4);
+}
+
+.Btn:hover .layer-mix-horizontal,
+.Btn.active .layer-mix-horizontal {
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0.12;
+}
+
+.Btn:hover .layer-mix-horizontal img,
+.Btn.active .layer-mix-horizontal img {
+  width: 20px;
+  height: 20px;
+}
+
+.Btn:hover .text,
+.Btn.active .text {
+  padding-left: 0;
+  transform: scale(1.03);
+}
+
+/* Colores de Bordes y Estados Activos */
+.Btn.all {
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+.Btn.all:hover,
+.Btn.all.active {
+  background-color: #1e1e30;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+.Btn.all:hover .text,
+.Btn.all.active .text {
+  color: var(--gold);
+}
+
+.Btn.gryffindor {
+  border: 1px solid rgba(174, 0, 1, 0.4);
+}
+.Btn.gryffindor:hover,
+.Btn.gryffindor.active {
+  background-color: #5c0001;
+  box-shadow: 0 0 12px rgba(174, 0, 1, 0.5);
+}
+
+.Btn.hufflepuff {
+  border: 1px solid rgba(236, 185, 57, 0.4);
+}
+.Btn.hufflepuff:hover,
+.Btn.hufflepuff.active {
+  background-color: #c4941b;
+  box-shadow: 0 0 12px rgba(236, 185, 57, 0.5);
+}
+.Btn.hufflepuff:hover .text,
+.Btn.hufflepuff.active .text {
+  color: #000;
+}
+
+.Btn.ravenclaw {
+  border: 1px solid rgba(34, 47, 91, 0.5);
+}
+.Btn.ravenclaw:hover,
+.Btn.ravenclaw.active {
+  background-color: #0e1a40;
+  box-shadow: 0 0 12px rgba(34, 47, 91, 0.5);
+}
+
+.Btn.slytherin {
+  border: 1px solid rgba(42, 98, 61, 0.5);
+}
+.Btn.slytherin:hover,
+.Btn.slytherin.active {
+  background-color: #1a472a;
+  box-shadow: 0 0 12px rgba(42, 98, 61, 0.5);
+}
+
+.Btn.active {
+  transform: scale(1.02);
+}
+
+/* Grilla de Tarjetas */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1.5rem;
+}
+
+.card {
+  background: linear-gradient(135deg, #161626, #0d0d1a);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+}
+
+.card-img-container {
+  height: 280px;
+  background: #090911;
+}
+
+.card-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  flex-grow: 1;
+}
+
+.card-body h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+}
+
+.btn-detail {
+  margin-top: auto;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold-dim);
+  padding: 0.5rem 1.5rem;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-detail:hover {
+  background: var(--gold);
+  color: #000;
+  font-weight: bold;
+}
+
+/* Vista Detalle - Versión Premium Hogwarts */
+.detail-page {
+  max-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem 1rem;
+  background:
+    linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+    url("/src/assets/diario.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-container {
+  width: 100%;
+  max-width: 750px;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.button-back-uiverse {
+  display: block;
+  position: relative;
+  width: 190px;
+  height: 50px;
+  margin: 0;
+  overflow: hidden;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.button-back-uiverse:before,
+.button-back-uiverse:after {
+  content: "";
+  position: absolute;
+  border-radius: 30px;
+  inset: 3px;
+}
+
+.button-back-uiverse:before {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition:
+    opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button-back-uiverse:after {
+  border: 2px solid var(--gold);
+  transform: scale(1.08);
+  transition:
+    opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  opacity: 0;
+}
+
+.button-back-uiverse:hover:before,
+.button-back-uiverse:focus:before {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.button-back-uiverse:hover:after,
+.button-back-uiverse:focus:after {
+  opacity: 1;
+  transform: scale(1);
+  transition:
+    opacity 0.4s cubic-bezier(0.77, 0, 0.175, 1) 80ms,
+    transform 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) 80ms;
+}
+
+.button-box {
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.button-elem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 190px;
+  height: 50px;
+  padding: 0 15px;
+}
+.button-elem svg {
+  width: 18px;
+  height: 18px;
+  transform: rotate(180deg);
+  fill: #f0eeef;
+  flex-shrink: 0;
+}
+.button-elem:nth-child(2) svg {
+  fill: var(--gold);
+}
+.button-elem:nth-child(2) .back-text {
+  color: var(--gold);
+}
+.back-text {
+  color: #f0eeef;
+  font-size: 0.95rem;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.button-back-uiverse:hover .button-box,
+.button-back-uiverse:focus .button-box {
+  transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  transform: translateX(-190px);
+}
+
+.detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(15, 15, 30, 0.85);
+  backdrop-filter: blur(4px);
+  border: 2px solid var(--gold);
+  border-radius: 20px;
+  box-shadow:
+    0 0 35px rgba(0, 0, 0, 0.7),
+    0 0 15px rgba(255, 215, 0, 0.2);
+  padding: 3rem 2rem;
+  position: relative;
+  text-align: center;
+  max-width: 750px;
+  width: 100%;
+}
+
+.detail-card::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.detail-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--gold);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  margin-bottom: 2rem;
+  z-index: 2;
+}
+.detail-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.detail-info {
+  width: 100%;
+  z-index: 2;
+}
+.detail-info h2 {
+  font-family: "Cinzel", serif;
+  color: var(--gold);
+  font-size: 2.8rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+}
+
+.magic-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0 2rem 0;
+}
+.magic-line {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--gold-dim),
+    transparent
+  );
+  flex: 1;
+}
+.magic-symbol {
+  color: var(--gold);
+  font-size: 1.2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  text-align: left;
+  margin-top: 1rem;
+}
+.info-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 215, 0, 0.08);
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: background 0.2s;
+}
+.info-item:hover {
+  background: rgba(255, 215, 0, 0.04);
+  border-color: rgba(255, 215, 0, 0.2);
+}
+.info-item label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gold-dim);
+  font-weight: 600;
+}
+.info-item span {
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+/* ==========================================================================
+📱 ADAPTACIÓN RESPONSIVA OPTIMIZADA (MOBILE Y TABLET)
+   ========================================================================== */
+@media (max-width: 1150px) {
+  .header-container {
+    flex-direction: column; /* Apila todo al centro verticalmente en pantallas intermedias */
+    justify-content: center;
+    gap: 1.5rem;
+    text-align: center;
+  }
+  .house-buttons {
+    margin: 0 auto;
+  }
+  .search-container {
+    max-width: 500px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hp-logo-img {
+    height: 55px; /* Un toque más pequeño en celulares */
+  }
+  .detail-card {
+    flex-direction: column;
+  }
+  .detail-img {
+    width: 100%;
+    height: 300px;
+  }
+  .detail-info {
+    width: 100%;
+    padding: 1.5rem;
+  }
+}
+
+#detail-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
