@@ -19,12 +19,12 @@
   padding: 0;
 }
 
-/* 🏰 En la regla body: */
 body {
   font-family: "Poppins", sans-serif;
+  /* 🏰 CORREGIDO: Ruta relativa para que Vite procese la imagen en producción */
   background:
     linear-gradient(rgba(15, 15, 26, 0.85), rgba(15, 15, 26, 0.9)),
-    url("../assets/escuela.jpg") no-repeat center center fixed; /* 👈 Cambiado a ruta relativa */
+    url("../assets/escuela.jpg") no-repeat center center fixed;
   background-size: cover;
   color: var(--white);
   min-height: 100vh;
@@ -32,42 +32,18 @@ body {
   flex-direction: column;
 }
 
-/* 📜 En la regla .detail-page: */
-.detail-page {
-  max-width: 100vw;
-  min-height: 100vh;
-  margin: 0;
-  padding: 2rem 1rem;
-  background:
-    linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
-    url("../assets/diario.jpg") no-repeat center center fixed; /* 👈 Cambiado a ruta relativa */
-  background-size: cover;
-  background-color: var(--bg-dark);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 /* Header Estilo Navbar Cinematográfica */
 header {
   position: sticky;
   top: 0;
   z-index: 1000;
-
-  /* 1. Mantené acá el fondo sólido que más te haya gustado */
   background: #0a0a0f;
   padding: 1.1rem 2rem;
-
-  /* 2. Quitamos el border-bottom tradicional para usar la línea mágica */
   border-bottom: none;
-
-  /* 3. ¡REQUISITO CLAVE! Permite posicionar la línea justo en la base */
   position: relative;
-
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
 
-/* 🪄 La línea dorada con extremos difuminados */
 header::after {
   content: "";
   position: absolute;
@@ -81,34 +57,27 @@ header::after {
     rgba(236, 185, 57, 1) 50%,
     rgba(236, 185, 57, 0) 100%
   );
-
-  /* Aplica un brillo dorado difuminado que acompaña el desvanecimiento de la línea */
   filter: drop-shadow(0 0 4px rgba(236, 185, 57, 0.6));
 }
 
-/* ⚡ CONTENEDOR PRINCIPAL QUE DISTRIBUYE LOS 3 ELEMENTOS */
 .header-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; /* Izquierda, Centro y Derecha exactos */
+  justify-content: space-between;
   max-width: 1440px;
   margin: 0 auto;
   width: 100%;
   gap: 1.5rem;
 }
 
-/* 🪄 LOGO BIEN A LA IZQUIERDA (TAMAÑO OPTIMIZADO) */
 .hp-logo-img {
-  height: 65px; /* Altura perfecta y equilibrada para ir alineada con los botones */
+  height: 65px;
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
-
-  /* Sombra y destello mágico dorado */
   filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.8))
     drop-shadow(0px 0px 12px rgba(255, 215, 0, 0.3));
-
   transition:
     filter 0.3s ease,
     transform 0.3s ease;
@@ -120,7 +89,6 @@ header::after {
   transform: scale(1.04);
 }
 
-/* 🔍 CONTENEDOR DE BÚSQUEDA BIEN A LA DERECHA */
 .search-container {
   display: flex;
   gap: 1.5rem;
@@ -131,11 +99,10 @@ header::after {
 .search-container input,
 .search-container select {
   padding: 0.6rem 0.4rem;
-  /* Sin bordes, solo la línea de base */
   border: none;
   border-bottom: 2px solid rgba(236, 185, 57, 0.3);
-  border-radius: 0; /* Resetea el radio */
-  background: transparent; /* Totalmente transparente */
+  border-radius: 0;
+  background: transparent;
   color: #ffffff;
   font-size: 0.95rem;
   outline: none;
@@ -158,28 +125,22 @@ header::after {
   padding-right: 1.5rem;
 }
 
-/* Al enfocar, la línea inferior se vuelve oro brillante y se desplaza sutilmente */
 .search-container input:focus,
 .search-container select:focus {
   border-bottom-color: var(--gold);
-  padding-left: 0.8rem; /* Pequeño efecto animado de desplazamiento */
+  padding-left: 0.8rem;
 }
 
-/* 🪄 Solución al bug de invisibilidad de image_f4ed81.png */
 .search-container select option {
-  background-color: #0a0a0f; /* Cambia el fondo blanco por el fondo oscuro de tu header */
-  color: #ffffff; /* Fuerza a que las letras sean blancas sobre el fondo oscuro */
-  padding: 10px; /* Le da un poco de aire a cada opción (en navegadores que lo soportan) */
+  background-color: #0a0a0f;
+  color: #ffffff;
+  padding: 10px;
 }
 
-/* Opcional: Si querés que la opción que viene "Por Defecto" o deshabilitada tenga un tono grisáceo */
 .search-container select option:disabled {
   color: rgba(255, 255, 255, 0.4);
 }
 
-/* ==========================================================================
-   ⚡ BOTONES DE LAS CASAS JUSTO EN EL MEDIO
-   ========================================================================== */
 .house-buttons {
   display: flex;
   flex-direction: row;
@@ -212,7 +173,6 @@ header::after {
   flex-shrink: 0;
 }
 
-/* Escudos para botones individuales */
 img.Layer {
   width: 24px;
   height: 24px;
@@ -223,7 +183,6 @@ img.Layer {
   opacity: 0.9;
 }
 
-/* 🗺️ Contenedor de los 4 escudos HORIZONTALES dentro de "Todos" */
 .layer-mix-horizontal {
   display: flex;
   flex-direction: row;
@@ -242,7 +201,6 @@ img.Layer {
   transition: all 0.4s;
 }
 
-/* Textos generales de los botones */
 .text {
   color: #f0eeef;
   font-weight: 600;
@@ -263,7 +221,6 @@ img.Layer {
   padding-left: 56px;
 }
 
-/* --- Efectos Hover y Active --- */
 .Btn:hover {
   transform: translateY(-2px);
 }
@@ -299,7 +256,6 @@ img.Layer {
   transform: scale(1.03);
 }
 
-/* Colores de Bordes y Estados Activos */
 .Btn.all {
   border: 1px solid rgba(255, 215, 0, 0.3);
 }
@@ -357,7 +313,6 @@ img.Layer {
   transform: scale(1.02);
 }
 
-/* Grilla de Tarjetas */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -435,9 +390,10 @@ img.Layer {
   min-height: 100vh;
   margin: 0;
   padding: 2rem 1rem;
+  /* 🏰 CORREGIDO: Ruta relativa para producción */
   background:
     linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
-    url("/src/assets/diario.jpg") no-repeat center center fixed;
+    url("../assets/diario.jpg") no-repeat center center fixed;
   background-size: cover;
   background-color: var(--bg-dark);
   display: flex;
@@ -658,12 +614,9 @@ img.Layer {
   color: var(--white);
 }
 
-/* ==========================================================================
-📱 ADAPTACIÓN RESPONSIVA OPTIMIZADA (MOBILE Y TABLET)
-   ========================================================================== */
 @media (max-width: 1150px) {
   .header-container {
-    flex-direction: column; /* Apila todo al centro verticalmente en pantallas intermedias */
+    flex-direction: column;
     justify-content: center;
     gap: 1.5rem;
     text-align: center;
@@ -679,7 +632,7 @@ img.Layer {
 
 @media (max-width: 768px) {
   .hp-logo-img {
-    height: 55px; /* Un toque más pequeño en celulares */
+    height: 55px;
   }
   .detail-card {
     flex-direction: column;
