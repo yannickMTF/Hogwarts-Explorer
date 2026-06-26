@@ -148,4 +148,4 @@ async function loadDetail() {
     `;
 }
 
-document.addEventListener("DOMContentLoaded", loadDetail());
+document.addEventListener("DOMContentLoaded", loadDetail);

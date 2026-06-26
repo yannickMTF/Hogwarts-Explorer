@@ -19,19 +19,33 @@
   padding: 0;
 }
 
+/* 🏰 En la regla body: */
 body {
   font-family: "Poppins", sans-serif;
-
-  /* 🏰 Imagen de Hogwarts de fondo cubriendo toda la pantalla principal */
   background:
     linear-gradient(rgba(15, 15, 26, 0.85), rgba(15, 15, 26, 0.9)),
-    url("/src/assets/escuela.jpg") no-repeat center center fixed;
+    url("../assets/escuela.jpg") no-repeat center center fixed; /* 👈 Cambiado a ruta relativa */
   background-size: cover;
-
   color: var(--white);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* 📜 En la regla .detail-page: */
+.detail-page {
+  max-width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem 1rem;
+  background:
+    linear-gradient(rgba(10, 10, 20, 0.75), rgba(10, 10, 20, 0.85)),
+    url("../assets/diario.jpg") no-repeat center center fixed; /* 👈 Cambiado a ruta relativa */
+  background-size: cover;
+  background-color: var(--bg-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Header Estilo Navbar Cinematográfica */
