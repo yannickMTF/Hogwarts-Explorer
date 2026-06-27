@@ -48,7 +48,7 @@ function renderCharacters(list) {
                 <span class="btn-house ${char.house ? char.house.toLowerCase() : ""}" style="pointer-events: none; padding: 0.2rem 1rem; font-size:0.8rem;">
                     ${char.house || "Sin Casa"}
                 </span>
-                <a href="/detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
+                <a href=detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
             </div>
         `;
     grid.appendChild(card);
