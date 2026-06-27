@@ -1,33 +1,38 @@
-import { getAllCharacters, PLACEHOLDER_IMG } from "./api.js";
-
-let characters = [];
-let activeHouse = "all"; // Estado del filtro de casa
-
+// Elementos del DOM
 const grid = document.getElementById("characters-grid");
-const searchInput = document.getElementById("search-input");
-const sortSelect = document.getElementById("sort-select");
-const messageContainer = document.getElementById("message-container");
-const houseButtons = document.querySelectorAll(".btn-house");
+const searchInput = document.querySelector(".search-container input");
+const roleSelect = document.querySelector(".search-container select");
+const houseButtons = document.querySelectorAll(".house-buttons .Btn, .Btn");
 
+// 🏰 URL OFICIAL CON HTTPS (Crucial para Vercel)
+const API_URL = "https://hp-api.onrender.com/api/characters";
+const PLACEHOLDER_IMG = "https://placehold.co/240x280?text=No+Image";
+
+let allCharacters = [];
+let selectedHouse = "all";
+
+// Inicializar la aplicación
 async function init() {
-  messageContainer.innerHTML =
-    '<div class="loader">Lanzando "Accio Datos"... 🪄</div>';
-  const data = await getAllCharacters();
+  try {
+    const res = await fetch(API_URL);
+    allCharacters = await res.json();
 
-  if (!data) {
-    messageContainer.innerHTML =
-      '<p class="loader" style="color:red;">El giratiempo falló. API caída.</p>';
-    return;
+    renderCharacters(allCharacters);
+    setupEventListeners();
+  } catch (err) {
+    console.error("Error al conectar con la API:", err);
+    if (grid) {
+      grid.innerHTML =
+        '<p class="loader">Personaje oculto bajo la capa de invisibilidad.</p>';
+    }
   }
-
-  messageContainer.innerHTML = "";
-  characters = data;
-  renderCharacters(characters);
-  setupEvents();
 }
 
+// Función de renderizado con enlace relativo compatible con Vercel
 function renderCharacters(list) {
+  if (!grid) return;
   grid.innerHTML = "";
+
   if (list.length === 0) {
     grid.innerHTML =
       '<p class="loader">Ningún mago o bruja cumple las condiciones.</p>';
@@ -48,51 +53,63 @@ function renderCharacters(list) {
                 <span class="btn-house ${char.house ? char.house.toLowerCase() : ""}" style="pointer-events: none; padding: 0.2rem 1rem; font-size:0.8rem;">
                     ${char.house || "Sin Casa"}
                 </span>
-                <a href=/detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
+                <!-- El './' es la clave para que Vercel no se pierda al cambiar de página -->
+                <a href="./detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
             </div>
         `;
     grid.appendChild(card);
   });
 }
 
-function filterAndSort() {
-  let result = [...characters];
+// Sistema de filtros combinados
+function applyFilters() {
+  let filtered = [...allCharacters];
 
-  // 1. Filtro por barra de búsqueda
-  const text = searchInput.value.toLowerCase().trim();
-  if (text) {
-    result = result.filter((char) => char.name.toLowerCase().includes(text));
+  if (selectedHouse !== "all") {
+    filtered = filtered.filter(
+      (char) =>
+        char.house && char.house.toLowerCase() === selectedHouse.toLowerCase(),
+    );
   }
 
-  // 2. Filtro por Botón de Casa Activo
-  if (activeHouse !== "all") {
-    result = result.filter((char) => char.house === activeHouse);
+  if (searchInput) {
+    const query = searchInput.value.toLowerCase().trim();
+    if (query) {
+      filtered = filtered.filter((char) =>
+        char.name.toLowerCase().includes(query),
+      );
+    }
   }
 
-  // 3. Ordenar Alfabéticamente de A-Z o Z-A
-  const sortValue = sortSelect.value;
-  if (sortValue === "asc") {
-    result.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortValue === "desc") {
-    result.sort((a, b) => b.name.localeCompare(a.name));
+  if (roleSelect) {
+    const roleValue = roleSelect.value;
+    if (roleValue === "students") {
+      filtered = filtered.filter((char) => char.hogwartsStudent === true);
+    } else if (roleValue === "staff") {
+      filtered = filtered.filter((char) => char.hogwartsStaff === true);
+    }
   }
 
-  renderCharacters(result);
+  renderCharacters(filtered);
 }
 
-function setupEvents() {
-  searchInput.addEventListener("input", filterAndSort);
-  sortSelect.addEventListener("change", filterAndSort);
-
-  // Lógica para alternar clases activas en los botones de casas
+function setupEventListeners() {
   houseButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", () => {
       houseButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-      activeHouse = btn.getAttribute("data-house");
-      filterAndSort();
+
+      if (btn.classList.contains("all")) {
+        selectedHouse = "all";
+      } else {
+        selectedHouse = btn.classList[1] || "all";
+      }
+      applyFilters();
     });
   });
+
+  if (searchInput) searchInput.addEventListener("input", applyFilters);
+  if (roleSelect) roleSelect.addEventListener("change", applyFilters);
 }
 
-document.addEventListener("DOMContentLoaded", init);
+init();
