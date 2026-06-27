@@ -1,42 +1,33 @@
-// Elementos del DOM
+import { getAllCharacters, PLACEHOLDER_IMG } from "./api.js";
+
+let characters = [];
+let activeHouse = "all"; // Estado del filtro de casa
+
 const grid = document.getElementById("characters-grid");
-const searchInput = document.querySelector(".search-container input");
-const roleSelect = document.querySelector(".search-container select");
-const houseButtons = document.querySelectorAll(".house-buttons .Btn, .Btn");
+const searchInput = document.getElementById("search-input");
+const sortSelect = document.getElementById("sort-select");
+const messageContainer = document.getElementById("message-container");
+const houseButtons = document.querySelectorAll(".btn-house");
 
-// 🏰 URL de la API (HTTPS)
-const API_URL = "https://hp-api.onrender.com/api/characters";
-
-// 🪄 TU IMAGEN DE RESPALDO:
-// Si es un archivo local de tu carpeta, poné por ejemplo: "./src/assets/tu-imagen.png"
-// Si era un link de internet, pegá el link acá adentro entre las comillas:
-const PLACEHOLDER_IMG = "./src/assets/escuela.jpg"; // <-- CAMBIA ESTO por el nombre exacto de tu foto de Harry Potter
-
-let allCharacters = [];
-let selectedHouse = "all";
-
-// Inicializar la aplicación
 async function init() {
-  try {
-    const res = await fetch(API_URL);
-    allCharacters = await res.json();
+  messageContainer.innerHTML =
+    '<div class="loader">Lanzando "Accio Datos"... 🪄</div>';
+  const data = await getAllCharacters();
 
-    renderCharacters(allCharacters);
-    setupEventListeners();
-  } catch (err) {
-    console.error("Error al conectar con la API:", err);
-    if (grid) {
-      grid.innerHTML =
-        '<p class="loader">Personaje oculto bajo la capa de invisibilidad.</p>';
-    }
+  if (!data) {
+    messageContainer.innerHTML =
+      '<p class="loader" style="color:red;">El giratiempo falló. API caída.</p>';
+    return;
   }
+
+  messageContainer.innerHTML = "";
+  characters = data;
+  renderCharacters(characters);
+  setupEvents();
 }
 
-// Función de renderizado para las tarjetas
 function renderCharacters(list) {
-  if (!grid) return;
   grid.innerHTML = "";
-
   if (list.length === 0) {
     grid.innerHTML =
       '<p class="loader">Ningún mago o bruja cumple las condiciones.</p>';
@@ -46,8 +37,6 @@ function renderCharacters(list) {
   list.forEach((char) => {
     const card = document.createElement("div");
     card.className = "card";
-
-    // Si el personaje no tiene foto, usa tu hermosa imagen de Harry Potter
     const img = char.image ? char.image : PLACEHOLDER_IMG;
 
     card.innerHTML = `
@@ -59,72 +48,51 @@ function renderCharacters(list) {
                 <span class="btn-house ${char.house ? char.house.toLowerCase() : ""}" style="pointer-events: none; padding: 0.2rem 1rem; font-size:0.8rem;">
                     ${char.house || "Sin Casa"}
                 </span>
-                <a href="./detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
+                <a href=./detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
             </div>
         `;
     grid.appendChild(card);
   });
 }
 
-// Procesar y combinar filtros
-function applyFilters() {
-  let filtered = [...allCharacters];
+function filterAndSort() {
+  let result = [...characters];
 
-  if (selectedHouse !== "all") {
-    filtered = filtered.filter(
-      (char) =>
-        char.house && char.house.toLowerCase() === selectedHouse.toLowerCase(),
-    );
+  // 1. Filtro por barra de búsqueda
+  const text = searchInput.value.toLowerCase().trim();
+  if (text) {
+    result = result.filter((char) => char.name.toLowerCase().includes(text));
   }
 
-  if (searchInput) {
-    const query = searchInput.value.toLowerCase().trim();
-    if (query) {
-      filtered = filtered.filter((char) =>
-        char.name.toLowerCase().includes(query),
-      );
-    }
+  // 2. Filtro por Botón de Casa Activo
+  if (activeHouse !== "all") {
+    result = result.filter((char) => char.house === activeHouse);
   }
 
-  if (roleSelect) {
-    const roleValue = roleSelect.value;
-    if (roleValue === "students") {
-      filtered = filtered.filter((char) => char.hogwartsStudent === true);
-    } else if (roleValue === "staff") {
-      filtered = filtered.filter((char) => char.hogwartsStaff === true);
-    }
+  // 3. Ordenar Alfabéticamente de A-Z o Z-A
+  const sortValue = sortSelect.value;
+  if (sortValue === "asc") {
+    result.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortValue === "desc") {
+    result.sort((a, b) => b.name.localeCompare(a.name));
   }
 
-  renderCharacters(filtered);
+  renderCharacters(result);
 }
 
-// Configurar los escuchadores de los botones y selectores
-function setupEventListeners() {
+function setupEvents() {
+  searchInput.addEventListener("input", filterAndSort);
+  sortSelect.addEventListener("change", filterAndSort);
+
+  // Lógica para alternar clases activas en los botones de casas
   houseButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", (e) => {
       houseButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
-
-      const clases = Array.from(btn.classList).map((c) => c.toLowerCase());
-
-      if (clases.includes("gryffindor")) {
-        selectedHouse = "gryffindor";
-      } else if (clases.includes("slytherin")) {
-        selectedHouse = "slytherin";
-      } else if (clases.includes("ravenclaw")) {
-        selectedHouse = "ravenclaw";
-      } else if (clases.includes("hufflepuff")) {
-        selectedHouse = "hufflepuff";
-      } else {
-        selectedHouse = "all";
-      }
-
-      applyFilters();
+      activeHouse = btn.getAttribute("data-house");
+      filterAndSort();
     });
   });
-
-  if (searchInput) searchInput.addEventListener("input", applyFilters);
-  if (roleSelect) roleSelect.addEventListener("change", applyFilters);
 }
 
-init();
+document.addEventListener("DOMContentLoaded", init);
