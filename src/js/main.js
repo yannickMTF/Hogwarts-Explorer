@@ -4,7 +4,7 @@ const searchInput = document.querySelector(".search-container input");
 const roleSelect = document.querySelector(".search-container select");
 const houseButtons = document.querySelectorAll(".house-buttons .Btn, .Btn");
 
-// 🏰 URL OFICIAL CON HTTPS (Crucial para Vercel)
+// URL oficial de la API (HTTPS)
 const API_URL = "https://hp-api.onrender.com/api/characters";
 const PLACEHOLDER_IMG = "https://placehold.co/240x280?text=No+Image";
 
@@ -28,7 +28,7 @@ async function init() {
   }
 }
 
-// Función de renderizado con enlace relativo compatible con Vercel
+// Función de renderizado para las tarjetas
 function renderCharacters(list) {
   if (!grid) return;
   grid.innerHTML = "";
@@ -53,7 +53,6 @@ function renderCharacters(list) {
                 <span class="btn-house ${char.house ? char.house.toLowerCase() : ""}" style="pointer-events: none; padding: 0.2rem 1rem; font-size:0.8rem;">
                     ${char.house || "Sin Casa"}
                 </span>
-                <!-- El './' es la clave para que Vercel no se pierda al cambiar de página -->
                 <a href="./detalle.html?id=${char.id}" class="btn-detail">Ver Perfil</a>
             </div>
         `;
@@ -61,10 +60,11 @@ function renderCharacters(list) {
   });
 }
 
-// Sistema de filtros combinados
+// Procesar y combinar filtros (Buscador + Casa + Rol)
 function applyFilters() {
   let filtered = [...allCharacters];
 
+  // Filtro por Casa
   if (selectedHouse !== "all") {
     filtered = filtered.filter(
       (char) =>
@@ -72,6 +72,7 @@ function applyFilters() {
     );
   }
 
+  // Filtro por Buscador de texto
   if (searchInput) {
     const query = searchInput.value.toLowerCase().trim();
     if (query) {
@@ -81,6 +82,7 @@ function applyFilters() {
     }
   }
 
+  // Filtro por Rol (Estudiante / Profesor)
   if (roleSelect) {
     const roleValue = roleSelect.value;
     if (roleValue === "students") {
@@ -93,17 +95,28 @@ function applyFilters() {
   renderCharacters(filtered);
 }
 
+// Configurar los escuchadores de los botones y selectores
 function setupEventListeners() {
   houseButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       houseButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      if (btn.classList.contains("all")) {
-        selectedHouse = "all";
+      // 🧙‍♂️ SOLUCIÓN: Buscamos la palabra clave textualmente sin importar el orden de las clases
+      const clases = Array.from(btn.classList).map((c) => c.toLowerCase());
+
+      if (clases.includes("gryffindor")) {
+        selectedHouse = "gryffindor";
+      } else if (clases.includes("slytherin")) {
+        selectedHouse = "slytherin";
+      } else if (clases.includes("ravenclaw")) {
+        selectedHouse = "ravenclaw";
+      } else if (clases.includes("hufflepuff")) {
+        selectedHouse = "hufflepuff";
       } else {
-        selectedHouse = btn.classList[1] || "all";
+        selectedHouse = "all"; // Si es el botón 'all' o no coincide ninguno
       }
+
       applyFilters();
     });
   });
