@@ -4,9 +4,13 @@ const searchInput = document.querySelector(".search-container input");
 const roleSelect = document.querySelector(".search-container select");
 const houseButtons = document.querySelectorAll(".house-buttons .Btn, .Btn");
 
-// URL oficial de la API (HTTPS)
+// 🏰 URL de la API (HTTPS)
 const API_URL = "https://hp-api.onrender.com/api/characters";
-const PLACEHOLDER_IMG = "https://placehold.co/240x280?text=No+Image";
+
+// 🪄 TU IMAGEN DE RESPALDO:
+// Si es un archivo local de tu carpeta, poné por ejemplo: "./src/assets/tu-imagen.png"
+// Si era un link de internet, pegá el link acá adentro entre las comillas:
+const PLACEHOLDER_IMG = "./src/assets/escuela.jpg"; // <-- CAMBIA ESTO por el nombre exacto de tu foto de Harry Potter
 
 let allCharacters = [];
 let selectedHouse = "all";
@@ -42,6 +46,8 @@ function renderCharacters(list) {
   list.forEach((char) => {
     const card = document.createElement("div");
     card.className = "card";
+
+    // Si el personaje no tiene foto, usa tu hermosa imagen de Harry Potter
     const img = char.image ? char.image : PLACEHOLDER_IMG;
 
     card.innerHTML = `
@@ -60,11 +66,10 @@ function renderCharacters(list) {
   });
 }
 
-// Procesar y combinar filtros (Buscador + Casa + Rol)
+// Procesar y combinar filtros
 function applyFilters() {
   let filtered = [...allCharacters];
 
-  // Filtro por Casa
   if (selectedHouse !== "all") {
     filtered = filtered.filter(
       (char) =>
@@ -72,7 +77,6 @@ function applyFilters() {
     );
   }
 
-  // Filtro por Buscador de texto
   if (searchInput) {
     const query = searchInput.value.toLowerCase().trim();
     if (query) {
@@ -82,7 +86,6 @@ function applyFilters() {
     }
   }
 
-  // Filtro por Rol (Estudiante / Profesor)
   if (roleSelect) {
     const roleValue = roleSelect.value;
     if (roleValue === "students") {
@@ -102,7 +105,6 @@ function setupEventListeners() {
       houseButtons.forEach((b) => b.classList.remove("active"));
       btn.classList.add("active");
 
-      // 🧙‍♂️ SOLUCIÓN: Buscamos la palabra clave textualmente sin importar el orden de las clases
       const clases = Array.from(btn.classList).map((c) => c.toLowerCase());
 
       if (clases.includes("gryffindor")) {
@@ -114,7 +116,7 @@ function setupEventListeners() {
       } else if (clases.includes("hufflepuff")) {
         selectedHouse = "hufflepuff";
       } else {
-        selectedHouse = "all"; // Si es el botón 'all' o no coincide ninguno
+        selectedHouse = "all";
       }
 
       applyFilters();
